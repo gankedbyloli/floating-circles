@@ -10,11 +10,12 @@ const canvasHeight = canvas.height;
 
 // Variables
 let mouse = {
-	x: innerWidth / 2,
-	y: innerHeight / 2 
+	x: window.innerWidth / 2,
+	y: window.innerHeight / 2 
 };
 
-const maxRadius = 35;
+const maxRadius = 40;
+const responseDistance = 120;
 
 // Event Listeners
 addEventListener("mousemove", function (event) {
@@ -23,8 +24,8 @@ addEventListener("mousemove", function (event) {
 });
 
 addEventListener("resize", function () {
-	canvas.width = innerWidth;	
-	canvas.height = innerHeight;
+	canvas.width = window.innerWidth;	
+	canvas.height = window.innerHeight;
 
 	init();
 });
@@ -57,8 +58,8 @@ function Circle(x, y, dx, dy, radius, color) {
 	this.update = function () {
 
 		// interactivity
-		if (mouse.x - this.x < 100 && mouse.x - this.x > -100
-			&& mouse.y - this.y < 100 && mouse.y - this.y > -100) {
+		if (mouse.x - this.x < responseDistance && mouse.x - this.x > -responseDistance
+			&& mouse.y - this.y < responseDistance && mouse.y - this.y > -responseDistance) {
 			if (this.radius < maxRadius) {
 				this.radius += 1;
 			}
@@ -66,10 +67,10 @@ function Circle(x, y, dx, dy, radius, color) {
 			this.radius -= 1;
 		}
 
-		if (this.x + this.radius > innerWidth || this.x - this.radius < 0) {
+		if (this.x + this.radius > canvasWidth || this.x - this.radius < 0) {
 			this.dx = -this.dx;
 		}
-		if (this.y + this.radius > innerHeight || this.y - this.radius < 0) {
+		if (this.y + this.radius > canvasHeight || this.y - this.radius < 0) {
 			this.dy = -this.dy;
 		}
 		this.x += this.dx;
@@ -102,7 +103,7 @@ let circleArray = [];
 function init () {
 	circleArray = [];
 	for (var i = 0; i < 800; i++) {
-		var radius = randomIntFromRange(3, 8);
+		var radius = randomIntFromRange(1, 5);
 		var x = randomIntFromRange(radius, canvasWidth - radius);
 		var y = randomIntFromRange(radius, canvasHeight - radius);
 		var dx = Math.random() * randomSign();
